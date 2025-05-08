@@ -1,3 +1,5 @@
+import copy
+
 class SLP:
     '''
     SLP of the sequence xn are lists of strings, which we call list forms, with each string of form 'x1.x2.x3....xn', where 'xi' are known as symbols. Each symbol can be 
@@ -16,10 +18,6 @@ class SLP:
     ----------
     list_form : list
     A list of strings, where each string is either a simple assignment, a proper assignment, a product of assignments or a negative of an assignment. 
-    
-    CAUTION
-    -------
-    Power notation is not currently implemented.
     '''
     def __init__(self, slp):
         self.list_form = slp
@@ -114,14 +112,9 @@ class SLP:
         inplace : bool
         If True, susbtitutes the initial SLP for its inverse.
         '''
-        inverse_slp = self.list_form
-        inverse_assmnt = ''
-        for symbol_assmnt in inverse_slp[-1].split('.')[::-1]: # Iterate over the sequence symbols in the reverse order (shoes-socks theorem).
-            # The if statement avoids double negation.
-            inverse_assmnt += symbol_assmnt +'*.' if symbol_assmnt[-1] != '*' else symbol_assmnt[:-1] +'.'
-
-        inverse_slp.append(inverse_assmnt[:-1]) # Delete the ending '.' symbol.
-
+        inverse_slp = copy.deepcopy(self.list_form)
+        
+        inverse_slp.append('#' + str(len(inverse_slp)-1) + '*')
             
         if inplace: # If inplace, update the SLP to its inevrse.
             self.list_form = inverse_slp
@@ -289,6 +282,52 @@ class SLP:
         
         return SLP(new_slp)
     
+    def get_power(self, power, inplace = False):
+        '''
+        If s is a sequence given by the SLP, find a SLP for s^power. The new SLP will have form 
+        [s,x_1='x0.x0',x_2='x1.x1',...,x{lg(power)+1} = 'x{lg(power)}.x{lg(power)}','x0^b0.x1.^b1...x{lg(power)+1}^b{lg(power)+1}'] 
+        where b0b1...b{lg(power)+1} is the binary representation of power.
+        
+        Parameters
+        ----------
+        power : int
+        The power to be taken.
+        inplace : bool, optional
+        If True, updates the current SLP to its power.
+         
+        Returns
+        -------
+        slp : SLP
+        SLP of the power.
+        '''
+        if not '#' in self.list_form[-1]: # If the SLP is not compressed.
+            return SLP([((self.list_form[-1] +'.')*power)[:-1]]) # Count exact occurences of the symbol in the assignment.
+        else:
+            new_slp = copy.deepcopy(self.list_form) # Start constructing x0
+            power_binary = bin(power)[2:] # Get the binary representation of the power.
+            leading_digit = len(power_binary) # Length of the binary representation of the power, i.e., lg power + 1.
+
+            # We will add to the SLP the following assigments, x0.x0, x1.x1, ..., x{leading_digit-1}.x{leading_digit-1}, where x0 is the SLP of replacement.
+            # This variable power_bank saves, exactly, the indices of each xi, starting with x0 (i.e., the SLP of the replacement itself). We iterate to get the rest.
+            x0 = '#' + str(len(new_slp) - 1)
+            power_bank = [x0] 
+            for _ in range(1, leading_digit):
+                power_bank.append(x0 + '.' + x0) # Add to the SLP of the power the assignment x{i-1}.x{i-1} where i is the current iteration index.
+                new_slp.append(x0 + '.' + x0) # Add to replacement the assignment x{i-1}.x{i-1}.
+                x0 = '#' + str(len(new_slp) - 1) # Update the last entry of the power bank. 
+
+            # Now add the assignement 'x0^b0.x1.^b1...x{lg(power)+1}^b{lg(power)+1}'.
+            last_assignment_power = ''
+            if power_binary[1:] != (len(power_binary)-1)*'0': # If power is a power of 2, we are done.
+                for i,bi in enumerate(power_binary): # Iterate over the binary representation of power.
+                    last_assignment_power += int(bi)*(power_bank[i] + '.')
+                new_slp.append(last_assignment_power[:-1])
+
+            if inplace:
+                # If inplace == True, substitute SLP to its power.
+                self.list_form = new_slp
+
+            return SLP(new_slp)
     
     '''
     Changes of presentation
