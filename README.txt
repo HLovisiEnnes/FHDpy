@@ -1,1 +1,2 @@
-Fast Heegaard Diagram package. Rn implementing SLP. Package private
+Fast Heegaard Diagram package. Version 1 is available. Package private
+
