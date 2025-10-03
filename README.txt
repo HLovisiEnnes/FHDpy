@@ -1,2 +1,2 @@
-Fast Heegaard Diagram package. Version 1 is available. More information coming up soon.
+Fast Heegaard Diagram (FHDpy) is package for representing Heegaard splittings closed 3-manifolds by straight-line programs (SLPs) of the (signed) intersections of the associated diagrams and the edges of cellular complexes of the splitting surface.  
 
