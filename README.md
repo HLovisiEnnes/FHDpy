@@ -1,10 +1,10 @@
-# FHDpy: Python package for compressed data structures of Heegaard splittings (v 0.1)
+# FHDpy: Python package for compressed data structures of Heegaard splittings (almost v 0.1)
 This package was created to serve as a proof of concept in the [arXiv preprint](https://arxiv.org/abs/2507.11406), authored by Henrique Ennes and Clément Maria. The code, however, is the full responsibility of the first author, so you can only blame him for anything that does not work.
 
 ## Background
 A Heegaard splitting is a representation of a closed 3-manifold by the gluing of two handlebodies of common surface $\Sigma_g$ through an element of its mapping class group, $\phi \in \text{Mod}(\Sigma_g)$. Equivalently, a Heegaard splitting can be described by two sets of $g$ disjoint curves, say $\alpha$ and $\beta$, with $\beta = \phi(\alpha)$, whose intersection pattern conveys much of the topology of the underlying 3-manifold. We algorithmically explore this notion in the preprint, where we propose a representation of Heegaard diagrams through straight-line programs (SLPs) of the intersection sequences of the $\beta$-curves and the edges of cellular complexes of a surface.
 
-The SLP data structure allows one to encode some spaces with exponentially less space compared to the usual triangulation representation of 3-manifolds, while still being able to efficiently manipulate and investigate their topology. This package implements some of these manipulations, which are explained in greater detail in the mentioned preprint.
+The SLP data structure allows one to encode some 3-manifolds with exponentially less space compared to the usual triangulation representation of 3-manifolds, while still being able to efficiently manipulate and investigate their topology. This package implements some of these manipulations, which are explained in greater detail in the mentioned preprint.
 
 ### Philosophy
 Although there exist Python packages for constructing and manipulating SLPs (cf. ..., to name a few), we opted to implement an SLP module by hand. There are a few reasons behind this decision.
