@@ -1,1 +1,1 @@
-__all__ = ["FHD","SLP"]
+__all__ = ["FHD","SLP","FPG"]

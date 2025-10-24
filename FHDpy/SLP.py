@@ -34,8 +34,9 @@ class SLP:
         '''
         Print list form.
         
-        Ex.: print(SLP(['x','y','#0.#1']))
-        >> 0. x
+        Example: 
+        >> print(SLP(['x','y','#0.#1']))
+        0. x
         1. y
         2. #0.#1
         '''
@@ -51,10 +52,12 @@ class SLP:
         '''
         Get lenght of the represented word.
         
-        Ex.: len(SLP(['x','y','#0.#1.x.x*'])) = 4
-        
         Returns:
             int: Length of the SLP, defined as the toal length of the final sequence when uncompressed.
+        
+        Example: 
+            >>> len(SLP(['x','y','#0.#1.x.x*']))
+            4
         
         The gernal case is implemented using dynamic programming (memorization), only faster than counting 
         occurances of last sequence if SLP is compressed, otherwise get length on the last assignment.
@@ -95,11 +98,14 @@ class SLP:
     def complexity(self):
         '''
         Return the classical complexity of the SLP as the sum of lenghts of the RHS.
-        
-        Ex.: slp_complexity(['x','y','#0.#1']) = 4
-        
+            
         Returns:
             int: The complexity as the sum of lengths of RHSs of assignments.
+        
+        Example: 
+            >>> slp_complexity(['x','y','#0.#1']) 
+            4
+
         '''
         return sum([len(l.split('.')) for l in self.list_form])
     
@@ -129,13 +135,16 @@ class SLP:
         '''
         Count the number of absolute value occurences of a symbol in the SLP.
         
-        Ex.: SLP(['x','x*','#0.#1']).get_count(x) = 2
-
         Arguments:
             symbol (str): Symbol to be counted.
         
         Returns:
             int: Number of occurences of a symbol (including its negative) in the SLP.
+        
+        Example: 
+            >>> SLP(['x','x*','#0.#1']).get_count(x) 
+            2
+
         
         The gernal case is implemented using dynamic programming (memorization), only faster 
             than counting occurances of last sequence if SLP is compressed, otherwise count on the last assignment.  
@@ -175,14 +184,18 @@ class SLP:
         '''
         Count the number of signed occurences of a symbol in the SLP.
         
-        Ex.: SLP(['x','x*','#0.#1.x*']).get_signed_count('x') = 1, 
-             SLP(['x','x*','#0.#1.x*']).get_signed_count('x*') = 2.
-        
         Arguments:
             symbol (str): Symbol to be counted.
         
         Returns:
             int: Sign sentive number of occurences of the symbol in the SLP.
+        
+        
+        Example: 
+            >>> SLP(['x','x*','#0.#1.x*']).get_signed_count('x')
+            1 
+            >>> SLP(['x','x*','#0.#1.x*']).get_signed_count('x*') 
+            2
         
         The gernal case is implemented using dynamic programming (memorization), only faster 
         than counting occurances of last sequence if SLP is compressed, otherwise count on the last assignment.   
@@ -309,15 +322,15 @@ class SLP:
             SLP: SLP with deleted assignment.
         
         The gernal case is implemented using dynamic programming (memorization), 
-        only faster than counting occurances of last sequence if SLP is compressed, 
-        otherwise use string replace.
-        '''
+        only faster than substituting occurances of last sequence if SLP is compressed.
+        String replacemente is not used here, as we do not want any previous reference to a deleted
+        variable to show up.
+        '''        
         # If the SLP is not compressed.
         if (not '#' in self.list_form[-1]): 
             new_slp = [assmnt for assmnt in self.list_form[:-1]]
             new_slp.append(self.list_form[-1].replace(target, '')) # Replace occurences of the symbol 
                                                                     # in the assignment for the empty string.
-
         else:
             new_slp = [] # New SLP in list form
             skip = 0 # This will increase everytime we delete an assignment.
@@ -446,9 +459,7 @@ class SLP:
             uncompressed = '' 
             for symbol_assmnt in assmt.split('.'):                
                 # If assignments are valid, we iterate over the symbol to check if it is simple or an assignment. 
-                    
                 if symbol_assmnt[0] == '#': # If a proper assigment, substitute for the actual sequence value.
-                    
                     # The if statement below is important to deal with negative assigenments (i.e., of form #n*).
                     reference = int(symbol_assmnt[1:]) if symbol_assmnt[-1] != '*' else int(symbol_assmnt[1:-1])
                     
@@ -475,9 +486,7 @@ class SLP:
     def get_binary(self, inplace : bool = False, dictionary : bool = False) -> SLP:
         '''
         Transform a general SLP into binary (Chomsky normal form).
-        
-        Ex.: SLP(['x*','y','#0.#1.x']).get_binary() -> ['x*','y','#0.#1','x', '#2.#3']
-        
+            
         Arguments:     
             inplace (bool, optional): If True, update self.list_form for the output. Defaults to False.
             dictionary (bool, optional): If True, returns the dictionary which maps every assignment 
@@ -485,6 +494,11 @@ class SLP:
         
         Returns:
             SLP: Binary SLP for the input.
+
+        Example:
+            >>> SLP(['x*','y','#0.#1.x']).get_binary() 
+            ['x*','y','#0.#1','x', '#2.#3']
+
         
         Implemented using dynamic programming (memorization).
         '''

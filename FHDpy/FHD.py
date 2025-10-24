@@ -5,6 +5,8 @@ import numpy as np
 
 import FHDpy.SLP as SLP # SLP module.
 
+import FHDpy.FPG as FPG # Finite presentation module.
+
 import snappy # Package for 3-manifold stuff.
 '''
 Main class
@@ -256,13 +258,14 @@ class FHDLong:
         else:
             return snappy.AbelianGroup(presentation_matrix)
     
-    def fundamental_group(self) -> list[SLP.SLP]:
+    def fundamental_group(self) -> FPG.FinitePresentation:
         '''
         Computes the relators of a presentation of the fundamental group of the Heegaard splitting as SLPs.
+        It is always supposed that `x` is not used as a prefix for alpha curves.
 
         Returns:
-            list[SLP.SLP]: The SLPs of the relators. Notice that the number of relators is equal to 
-                the number of components of beta (i.e., the surface's genus).
+            FPG.FinitePresentation: A finite presentation of the fundamental group. Refer to 
+                FPG for details on the class. 
         ''' 
         # This reverses the dictionary of alpha_edges, now mapping edges to alpha
         # (recall that we always assume that no two alpha curves share an edge).
@@ -281,6 +284,10 @@ class FHDLong:
         # that was not the case.
         # We promise to address this in the next version.
         relators = []
+        # This is not the smartest implementation, as we could just do one iteration over
+        # the intersection sequences and substitute get_uncompressedand delete at the same time.
+        # Doing so would save us a factor of |E| in the complexity, but would require strongly
+        # changing the SLP module. This will be done in the next version.
         for beta in self.beta:
             beta_copy = copy.deepcopy(beta) 
             # Substitutes the edges for generators.
@@ -292,8 +299,60 @@ class FHDLong:
             # By doing these two sets of operations, we get the relators' SLPs.
             relators.append(beta_copy)
 
-        return relators
-        
+        # The generators will correspond to alpha curves and the proper assignments, called `x`. 
+        # The relators are the proper assignments.
+        generator_list = list(self.alpha.keys())
+        relator_list = []
+        # This variable keeps track of the number of new generators we have added.
+        x_index = 0
+        for rel in relators:
+            list_form = rel.list_form
+            # If the SLP is not compressed.
+            if ('#' not in list_form[-1]):
+                last_asmmnt = list_form[-1]
+                if not(last_asmmnt == '') and not(last_asmmnt == '*'):
+                    relator_list.append(last_asmmnt)
+            else:
+                # This dictionary will define a map between assignments of that particular
+                # relators and geneators of the presentation.
+                gen_hash = {}
+                # Notice that the relators will be only up to the last assignement.
+                # For this reason, we will keep track of the length of the SLP.
+                len_slp = len(list_form)
+                for i, assmnt in enumerate(list_form):
+                    if i < len_slp - 1:
+                        # We will have one generator `x` for each assignment (considering all relators).
+                        # Only the last assignment does not correspond to a generator.
+                        current_gen = 'x' + str(x_index)
+                        gen_hash['#' + str(i)] = current_gen
+                        generator_list.append(current_gen)
+                        x_index += 1
+                    else:
+                        current_gen = ''
+
+                    # Now we substitute the assignments for the generators.
+                    # All relators are of form x_i = EXP_i, so to transform to the usual form, we simply append
+                    # the relator x_i^{-1}EXP_i, using our inverse convention.
+                    if current_gen:
+                        new_assmnt = current_gen + '*' + '.'
+                    else:
+                        new_assmnt = ''
+                    for symbol_assmnt in assmnt.split('.'):
+                        if '#' in symbol_assmnt:
+                            # We only need to substitute for proper assignments.
+                            # First we get only the numerical part of the assignement, i.e., ignoring *.
+                            if symbol_assmnt[-1] == '*': 
+                                new_assmnt += gen_hash[symbol_assmnt[:-1]] + '*.'
+                            else:
+                                new_assmnt += gen_hash[symbol_assmnt] + '.'
+                        else:
+                            new_assmnt += symbol_assmnt + '.'
+                    # Now we add the substituted relation to the list of relations.
+                    relator_list.append(new_assmnt[:-1])
+                            
+        return FPG.FinitePresentation(generator_list, relator_list)
+
+     
 class FHD_genus1(SLP.SLP):
     '''
     Simpler version of FHDLong for the T2 case. It requires no parameters and returns the SLP of beta. 
