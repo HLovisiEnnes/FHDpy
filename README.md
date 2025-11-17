@@ -22,7 +22,7 @@ For someone who has read the original preprint, it will soon become clear that, 
 1. we do not necessarily consider triangulations of surfaces, but rather more general cellular complexes;
 2. we do not use normal coordinates as inputs.
 
-These choices make sense in the experiments described here (i.e., when the inputs are words in the mapping class group represented by some generating set), but they make some of the algorithms described in Section 4 not readily useful. In due time, however, we plan to extend this code to include those cases, although we will likely not achieve the advertised running times for all cases.
+These choices make sense in the experiments described here (i.e., when the inputs are words in the mapping class group represented by some generating set), but they make some of the algorithms described in Section 4 not readily useful. In due time, however, we plan to extend this code to include those cases, although we will likely not achieve the advertised running times for all.
 
 In order of priority, we want to implement in the next versions:
 
@@ -41,4 +41,4 @@ Besides Python's native modules, this code imports:
 It also assumes Python 3.10+.
 
 ## Tutorial
-The package is divided into two (very short) modules, one for the SLP machinery (`TutorialSLP.ipynb`) and one for the Heegaard diagrams (`TutorialFHD.ipynb`). There are two tutorial notebooks for each of these modules. Although the FHD module uses SLP, the converse is not true, and many SLP-only functions are implemented. The images and experiments described in the preprint can be found in `ExperimentsWithFHD.ipynb`.
+The package is divided into three (very short) modules, one for the SLP machinery (`SPL.py`), one for the Heegaard diagrams (`FHD.py`), and one for finite group presentations (`FGP.py`). There are two tutorial notebooks for each of the first two modules, the third one is still experiemental and more functions will be implemented soon. Although the FHD module uses SLP, the converse is not true, and many SLP-only functions are implemented. The images and experiments described in the preprint can be found in `ExperimentsWithFHD.ipynb`.
