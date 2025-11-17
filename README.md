@@ -1,4 +1,4 @@
-# FHDpy: Python package for compressed data structures of Heegaard splittings (almost v 0.1)
+# FHDpy: Python package for compressed data structures of Heegaard splitting (v 0.1)
 This package was created to serve as a proof of concept in the [arXiv preprint](https://arxiv.org/abs/2507.11406), authored by Henrique Ennes and Clément Maria. The code, however, is the full responsibility of the first author, so you can only blame him for anything that does not work.
 
 ## Background
