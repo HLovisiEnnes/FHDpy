@@ -7,7 +7,7 @@ A Heegaard splitting is a representation of a closed 3-manifold by the gluing of
 The SLP data structure allows one to encode some 3-manifolds with exponentially less space compared to the usual triangulation representation of 3-manifolds, while still being able to efficiently manipulate and investigate their topology. This package implements some of these manipulations, which are explained in greater detail in the mentioned preprint.
 
 ### Philosophy
-Although there exist Python packages for constructing and manipulating SLPs (cf. ..., to name a few), we opted to implement an SLP module by hand. There are a few reasons behind this decision.
+Although there exist Python packages for constructing and manipulating SLPs, we opted to implement an SLP module by hand. There are a few reasons behind this decision.
 
 1. We wanted to stick to a particular syntax and notation, where we consider SLPs not in binary (Chomsky normal form), allow for mixed assignments, and enable better communication with `Twister` notation (which we use to generate splittings).
 2. This is also a proof of concept: SLPs are fun and among the easiest data structures one could hope for, while still having compression power comparable to the binary representation of integers.
