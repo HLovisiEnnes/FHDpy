@@ -1,0 +1,26 @@
+  GNU nano 7.2                                                                                                      .gitignore                                                                                                   
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual environments
+venv/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
+
+
+
+
+
