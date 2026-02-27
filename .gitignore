@@ -10,8 +10,8 @@ dist/
 *.egg
 
 # Virtual environments
-venv/
 .env/
+fhdpy_env/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -19,8 +19,6 @@ venv/
 # IDEs
 .vscode/
 .idea/
-
-
 
 
 
