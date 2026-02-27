@@ -16,7 +16,22 @@ Moreover, although all of this code would be significantly faster if implemented
 
 Finally, the code is *extensively* commented, and some (but not all) programming choices were made for the sake of pedagogy and not efficiency.
 
-### About this version
+## Installation
+
+You can install the project with pip.
+
+```bash
+# Clone the repository
+git clone https://github.com/HLovisiEnnes/FHDpy/
+
+# Option 1: Install in editable mode (recommended for development)
+pip install -e .
+
+# Option 2: Install normally
+pip install .
+```
+
+## About this version
 For someone who has read the original preprint, it will soon become clear that, although all experiments from Section 5 used solely this package, we deviate in two major aspects from the rest of the text:
 
 1. we do not necessarily consider triangulations of surfaces, but rather more general cellular complexes;
@@ -31,14 +46,6 @@ In order of priority, we want to implement in the next versions:
 3. the Erickson–Nayyeri algorithm for tracing street complexes (this one will probably take even longer).
 
 Unfortunately, we are not able to give exact deadlines for these implementations, but the author would gladly accept suggestions for further improvements.
-
-### External packages
-Besides Python's native modules, this code imports:
-
-1. `snappy`: version 3.2+ (only needed for FHD)
-2. `numpy`: version 2.1.3+
-
-It also assumes Python 3.10+.
 
 ## Tutorial
 The package is divided into three (very short) modules, one for the SLP machinery (`SPL.py`), one for the Heegaard diagrams (`FHD.py`), and one for finite group presentations (`FGP.py`). There are two tutorial notebooks for each of the first two modules, the third one is still experiemental and more functions will be implemented soon. Although the FHD module uses SLP, the converse is not true, and many SLP-only functions are implemented. The images and experiments described in the preprint can be found in `ExperimentsWithFHD.ipynb`.

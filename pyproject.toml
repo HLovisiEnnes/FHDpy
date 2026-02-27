@@ -1,0 +1,15 @@
+[project]
+name = "FHDpy"
+description = "Efficient data structures for Heegaard splittings of closed 3-manifolds."
+version = "0.0.1"
+authors = [
+    { name = "Henrique Ennes", email = "hlovisiennes@gmail.com" }
+]
+dependencies = [
+    "numpy>=2.1.3",
+    "snappy>=3.2"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["FHDpy"]
