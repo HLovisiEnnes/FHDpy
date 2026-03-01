@@ -41,9 +41,9 @@ These choices make sense in the experiments described here (i.e., when the input
 
 In order of priority, we want to implement in the next versions:
 
-1. Stefankovic's randomized normalization algorithm;
+1. [Stefankovic's randomized normalization algorithm](https://people.cs.uchicago.edu/~laci/students/stefankovic-phd.pdf);
 2. automatic construction of marked triangulations of closed surfaces of arbitrary genus;
-3. the Erickson–Nayyeri algorithm for tracing street complexes (this one will probably take even longer).
+3. the [Erickson–Nayyeri algorithm](https://dl.acm.org/doi/10.1145/2261250.2261270) for tracing street complexes (this one will probably take even longer).
 
 Unfortunately, we are not able to give exact deadlines for these implementations, but the author would gladly accept suggestions for further improvements.
 
